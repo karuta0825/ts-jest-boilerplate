@@ -1,0 +1,4 @@
+{
+  "presets": ["power-assert"],
+  "plugins": ["@babel/transform-modules-commonjs"]
+}
