@@ -1,0 +1,56 @@
+version: 2.1
+
+# 社内orbができるまでインライン利用
+orbs:
+  codecov: codecov/codecov@1.1.1
+
+# 共通化部分
+# 実行環境
+executors:
+  node:
+    working_directory: ~/workspace
+    docker:
+      - image: circleci/node:12
+
+jobs:
+  setup:
+    executor:
+      name: node
+    steps:
+      # git pullする
+      - checkout
+      - run: npm install
+      # jobを超えて使いまわしたものをroot/pathsに保存する
+      - persist_to_workspace:
+          root: .
+          paths:
+          - 'node_modules'
+  test:
+    executor:
+      name: node
+    steps:
+      - checkout
+       # persist_to_workspaceで保存したデータをatのパスにダウンロードする
+      - attach_workspace:
+          at: .
+
+      - run:
+          name: "JavaScript Test Suite"
+          command: npx jest --ci --runInBand --reporters=default --reporters=jest-junit --detectOpenHandles
+          environment:
+            JEST_JUNIT_OUTPUT_DIR: ./reports/junit/
+
+      - codecov/upload:
+          file: ./coverage/lcov.info
+
+      - store_test_results:
+          path: ./reports/junit/
+
+workflows:
+  setup_and_deploy:
+    jobs:
+      - setup
+      - test:
+          # 以下のjobの完了後に実行する
+          requires:
+            - setup
