@@ -14,7 +14,7 @@ describe('spy export with alias', () => {
 
   it('spyが呼び出されるのは1回', () => {
     const actual = doubleSquare(3);
-    assert.equal(spy.mock.calls.length, 1);
+    assert.equal(spy.mock.calls.length, 2);
   });
 
   it('spyの引数は、3である', () => {
