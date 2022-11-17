@@ -19,6 +19,7 @@ const table = [
   [15, 'Fizz Buzz'],
 ];
 
+//
 it.each(table)('FizzBuzz(%i) => %s', (a: any, expected) => {
   assert.equal(FizzBuzz(a), expected);
 });
