@@ -1,6 +1,6 @@
 # jest with typescript boilerplate [![codecov](https://codecov.io/gh/karuta0825/ts-jest-boilerplate/branch/master/graph/badge.svg)](https://codecov.io/gh/karuta0825/ts-jest-boilerplate)
 
-  typesciptでjestを実行できるボイラーテンプレート  
+  typesciptでjestを実行できるボイラープレート  
   js, ts両方でテスト記述可能
 
 ## formatter
