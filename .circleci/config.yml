@@ -12,6 +12,11 @@ executors:
     docker:
       - image: circleci/node:12
 
+  go:
+    working_directory: ~/workspace
+    docker:
+      - image: circleci/golang:1.16.0
+
 jobs:
   setup:
     executor:
@@ -46,6 +51,35 @@ jobs:
       - store_test_results:
           path: ./reports/junit/
 
+  release:
+    executor:
+      name: go
+    steps:
+      - checkout
+      - run:
+          name: Install ghch and github-release
+          command: |
+            go get github.com/Songmu/ghch/cmd/ghch@v0.10.2
+            go get github.com/github-release/github-release@v0.10.0
+      - attach_workspace:
+          at: .
+      - run:
+          name: Echo version
+          command: echo ${CIRCLE_TAG}
+      - run:
+          name: Echo Branch
+          command: echo ${CIRCLE_BRANCH}
+      - run:
+          name: ghch
+          command: ghch --format=markdown --latest
+      # - run:
+      #     name: Create release note
+      #     command: |
+      #     github-release release \
+      #       --tag "${CIRCLE_TAG}" \
+      #       --name "${CIRCLE_BRANCH}" \
+      #       --description "$(ghch --format=markdown --latest)"
+
 workflows:
   setup_and_deploy:
     jobs:
@@ -54,3 +88,7 @@ workflows:
           # 以下のjobの完了後に実行する
           requires:
             - setup
+      - release:
+          requires:
+            - setup
+            - test
