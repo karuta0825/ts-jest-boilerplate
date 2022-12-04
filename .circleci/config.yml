@@ -67,6 +67,9 @@ jobs:
           name: Echo version
           command: echo ${CIRCLE_TAG}
       - run:
+          name: Echo pipeline
+          command: echo ${pipeline.git.tag}
+      - run:
           name: Echo Branch
           command: echo ${CIRCLE_BRANCH}
       - run:
