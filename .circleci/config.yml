@@ -61,8 +61,6 @@ jobs:
           command: |
             go get github.com/Songmu/ghch/cmd/ghch@v0.10.2
             go get github.com/github-release/github-release@v0.10.0
-      - attach_workspace:
-          at: .
       - run:
           name: Echo version
           command: echo ${CIRCLE_TAG}
