@@ -93,3 +93,6 @@ workflows:
           requires:
             - setup
             - test
+          filters:
+            tags:
+              only: /.*/
