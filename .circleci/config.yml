@@ -30,11 +30,17 @@ jobs:
           root: .
           paths:
           - 'node_modules'
+      - run:
+          name: Echo version
+          command: echo ${CIRCLE_TAG}
   test:
     executor:
       name: node
     steps:
       - checkout
+      - run:
+          name: Echo version
+          command: echo ${CIRCLE_TAG}
        # persist_to_workspaceで保存したデータをatのパスにダウンロードする
       - attach_workspace:
           at: .
@@ -95,4 +101,4 @@ workflows:
             - test
           filters:
             tags:
-              only: /.*/
+              only: /^a.*/
