@@ -35,6 +35,12 @@ jobs:
       name: node
     steps:
       - checkout
+      - run:
+          name: Echo version
+          command: echo ${CIRCLE_TAG}
+      - run:
+          name: Echo GIT TAG
+          command: git tag
        # persist_to_workspaceで保存したデータをatのパスにダウンロードする
       - attach_workspace:
           at: .
@@ -93,3 +99,6 @@ workflows:
           requires:
             - setup
             - test
+          filters:
+            tags:
+              only: /^a.*/
